@@ -14,7 +14,7 @@ image = cv2.cvtColor (cv2.imread (img_path), cv2.COLOR_BGR2RGB)
 # image = plt.imread(img_path)
 
 def get_one_chanal_image(image):
-    transp_image = np.array (image).T
+    transp_image = np.array(image).T
     flatted_transp_image = transp_image[:][:1]
     flatted_image = flatted_transp_image.T
     print ('flatted_image', flatted_image)
@@ -64,6 +64,13 @@ if __name__ == '__main__':
     cropped_img = crop(one_ch_im)
     print(  'cropped_img.shape: ', cropped_img.shape)
     cv2.imwrite('CT_new.png',cropped_img)
-    plt.close()
-    plt.imshow(cropped_img, cmap='gray')
-    plt.show()
+    # plt.close()
+    # plt.imshow(cropped_img, cmap='gray')
+    # plt.show()
+    #
+    def median_cut(image):
+        shape_of_image = np.array(image).shape
+        print(shape_of_image)
+
+
+    median_cut(cropped_img)
