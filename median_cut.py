@@ -2,10 +2,9 @@ import numpy as np
 from numpy import median
 from scipy.cluster._hierarchy import cluster_in
 
-cluster_result_list = []
-
 
 def find_biggest_range_cluster_list(cluster_list):
+    cluster_result_list = []
     counter = 0
     for cluster in cluster_list:
         tmp_cluster_list = []
@@ -88,15 +87,7 @@ if __name__ == '__main__':
             # cluster_smaller = dummy_cluster[np.where (dummy_cluster <= t)]
             # cluster_bigger = dummy_cluster[np.where (dummy_cluster > t)]
 
-    find_median_cut_in_array_with_num_of_cluster(cluster_list, 6)
+    mediancutList = find_median_cut_in_array_with_num_of_cluster(cluster_list, 10)
 
-    counter2 = 0
-    for cluster in cluster_list:
-        print ("counter: ", counter2, " cluster_list.shape ", cluster.shape)
-        counter2 += 1
-    random_matrix = np.random.rand (10, 3)
-    print ("random_matrix.shape ", random_matrix.shape)
-    counter = 0
-    cluster_result_list = []
+    print("mediancutList ", mediancutList)
 
-    print ("cluster_result_list ", find_biggest_range_cluster_list (cluster_list))
