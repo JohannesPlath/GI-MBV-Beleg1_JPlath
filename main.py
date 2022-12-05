@@ -35,7 +35,7 @@ def crop(img):
     return img[np.min(y_nonzero):np.max(y_nonzero), np.min(x_nonzero):np.max(x_nonzero)]
 
 
-def median_cut_3x3(median_image):
+def median_filter_3x3(median_image):
     shape_of_image = np.array(median_image).shape
     result_image = np.zeros(shape_of_image)
     median_list = []
@@ -68,7 +68,7 @@ if __name__ == '__main__':
     # plt.close()
     # plt.imshow(one_ch_im, cmap='gray')
     # plt.show()
-    print_dim_min_max_and_return_max_min(one_ch_im)
+    # print_dim_min_max_and_return_max_min(one_ch_im)
     img = cv2.imread('CT.png')
     # gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     # _,thresh = cv2.threshold(gray,1,255,cv2.THRESH_BINARY)
@@ -81,11 +81,13 @@ if __name__ == '__main__':
     # cv2.imwrite('CT_new.png',crop)
     cropped_img = crop(one_ch_im)
     #print('cropped_img.shape: ', cropped_img.shape)
-    cv2.imwrite('CT_new.png', cropped_img)
+    #cv2.imwrite('CT_new.png', cropped_img)
 
-    plt.imshow(cropped_img, cmap='gray')
-    plt.show()
-    plt.close()
+
+
+# plt.imshow(cropped_img, cmap='gray')
+    # plt.show()
+    # plt.close()
     #
     # test_image = np.zeros((5, 5, 3))
     # test_image[:2][:2][:] = 1
@@ -98,11 +100,11 @@ if __name__ == '__main__':
     # #print("test_image ", test_image)
     # print("test_image ", test_image.shape)
 
-    result_image = median_cut_3x3(cropped_img)
+    #result_image = median_cut_3x3(cropped_img)
 
 
-    cv2.imwrite('foldet_CT_new.png', result_image)
+    #cv2.imwrite('foldet_CT_new.png', result_image)
 
-    plt.imshow(result_image, cmap='gray')
-    plt.show()
-    plt.close()
+    #plt.imshow(result_image, cmap='gray')
+    #plt.show()
+    #plt.close()
