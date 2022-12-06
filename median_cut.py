@@ -1,6 +1,13 @@
+import cv2
 import numpy as np
-from numpy import median
-from scipy.cluster._hierarchy import cluster_in
+from numpy import median, mean
+
+img_path = 'CT.png'
+img_to_save = 'CT_new.png'
+img_to_save2 = 'CT-new_2.png'
+
+image = cv2.cvtColor (cv2.imread (img_path), cv2.COLOR_BGR2RGB)
+
 
 
 def find_biggest_range_cluster_list(cluster_list):
@@ -25,22 +32,31 @@ def find_biggest_range_cluster_list(cluster_list):
 
 
 def find_median_cut_in_array_with_num_of_cluster(array_in_2_d, num_cluster):
+    # todo erstelle clusterList und append(array_in_2_d)
     while cluster_list.__len__() < num_cluster:
         cluster_value_dimension = find_biggest_range_cluster_list (array_in_2_d)
-        cluster_to_split =  array_in_2_d.pop(cluster_value_dimension.get("cluster"))
+        cluster_to_split = array_in_2_d.pop(cluster_value_dimension.get("cluster"))
         median_list = []
         for item in cluster_to_split:
             median_list.append(item[cluster_value_dimension.get("right/dimension")])
         t = median(median_list)
-        cluster_smaller = cluster_to_split[np.where(cluster_to_split[:,cluster_value_dimension.get("right/dimension")] <= t)]
-        cluster_larger = cluster_to_split[np.where(cluster_to_split[:,cluster_value_dimension.get("right/dimension")] > t)]
+        cluster_smaller = cluster_to_split[np.where(cluster_to_split[:, cluster_value_dimension.get("right/dimension")] <= t)]
+        cluster_larger = cluster_to_split[np.where(cluster_to_split[:, cluster_value_dimension.get("right/dimension")] > t)]
         array_in_2_d.append(cluster_larger)
         array_in_2_d.append(cluster_smaller)
+
     resultlist = []
+    result_list2 = []
     for cluster in array_in_2_d:
-        resultlist.append(median(cluster))
-    resultlist.sort()
-    return resultlist
+        mittelwerte = []
+        for richtung in range(cluster[0].shape[0]):
+            mittelwerte.append(np.mean(cluster[:, richtung]))
+        resultlist.append(mittelwerte)
+        result_list2.append(np.mean(cluster, axis=0))
+
+    return resultlist, result_list2
+
+
 
 
 cluster_list = [np.array ([[3, 0, 0],
@@ -52,42 +68,16 @@ cluster_list = [np.array ([[3, 0, 0],
                            [3, 4, 2],
                            [3, 0, 6],
                            [3, 0, 0],
-                           ]), (np.random.rand (2, 3) * (10)), (np.random.rand (5, 3) * (10))]
+                           ]), (np.random.rand (7, 3) * (10))]
 
 
 if __name__ == '__main__':
 
+    img = cv2.imread('CT.png')
+    cluster_list2 = np.array(img).reshape(-1, img.shape[2])
 
+    mediancut_list, median_array_list = find_median_cut_in_array_with_num_of_cluster(cluster_list2, 10)
 
-       # for cluster in cluster_list:
-       #          print (np.max (cluster, axis=0) - np.min (cluster, axis=0))
-       #
-       #          for i in range (cluster.shape[1]):
-       #              print (f'breite in Richtung {i}', np.max ((cluster[:i]) - np.min (cluster[:i])))
-       #
-       #      for i in range (cluster.shape[1]):
-       #          max_clustrer = -np.inf
-       #          min_clustrer = np.inf
-       #          for point in cluster:
-       #              if point[i] > max_clustrer:
-       #                  max_clustrer = point[i]
-       #              if point[i] < min_clustrer:
-       #                  min_clustrer = point[i]
-       #          print (i, max_clustrer - min_clustrer)
-
-            # finde von diesen breiten die maximale für diesen cluster und merke sich breite und richtung
-            # finde dden cluster mit maximaler breite und merke sich cluster und richtung
-            # teile den cluster mit maximaler breite in richtung mit maximaler breite
-            # hilfriech zum teilen
-
-            # dummy_cluster = np.random.rand (10, 3)  # cluser mit max breite ersetzen
-            # richhung = 0
-            # t = 0.5  # grenze zum teieln - muss durch median ersetzt werden
-            #
-            # cluster_smaller = dummy_cluster[np.where (dummy_cluster <= t)]
-            # cluster_bigger = dummy_cluster[np.where (dummy_cluster > t)]
-
-    mediancutList = find_median_cut_in_array_with_num_of_cluster(cluster_list, 10)
-
-    print("mediancutList ", mediancutList)
+    print("mediancutList ", mediancut_list)
+    print("median_array_list ", median_array_list)
 
