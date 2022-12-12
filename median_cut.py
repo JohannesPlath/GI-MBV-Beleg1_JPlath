@@ -97,7 +97,12 @@ if __name__ == '__main__':
     for first_dim, arr in enumerate(next_img):
            result[first_dim] = find_new_color(arr, mediancut_list )
 
-    resultImage = np.array(result)
+    result2 = np.eye(img.shape[0] * img.shape[1], img.shape[2])
+    for first, arr2 in enumerate(result):
+        for second, arr1 in enumerate(arr2):
+                result2[first][second]= int(round(arr1))
+
+    resultImage = np.array(result2)
     resultImage[np.where(resultImage==np.max(resultImage))] = 0
     resultImage[np.where(resultImage==np.min(resultImage))] = 0
     print("resultImage.shape ",resultImage.shape )
