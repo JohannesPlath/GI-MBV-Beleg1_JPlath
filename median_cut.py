@@ -50,7 +50,7 @@ def find_median_cut_in_array_with_num_of_cluster(array_in_2_d, num_cluster):
             mittelwerte.append(int(round(np.mean(cluster[:, richtung]))))
         resultlist.append(mittelwerte)
         res =  np.array(resultlist).reshape(resultlist.__len__(), 3)
-    res = sorted(res, key=lambda x:x[2])
+    res = sorted(res, key=lambda x:x.sum())
     return res
 
 
@@ -64,7 +64,7 @@ def find_new_color(item, clusterlist):
         if (diff_one < diff_two ):
             return clusterlist[x]
         x = x +1
-
+    return clusterlist[0]
 
 
 
@@ -84,12 +84,7 @@ if __name__ == '__main__':
 
 
 
-    mediancut_list = find_median_cut_in_array_with_num_of_cluster(imgList, 5)
-
-
-
-
-
+    mediancut_list = find_median_cut_in_array_with_num_of_cluster(imgList, 16)
 
 
     #mediancut_list2 = mediancut_list[:][:]
@@ -103,6 +98,8 @@ if __name__ == '__main__':
            result[first_dim] = find_new_color(arr, mediancut_list )
 
     resultImage = np.array(result)
+    resultImage[np.where(resultImage==np.max(resultImage))] = 0
+    resultImage[np.where(resultImage==np.min(resultImage))] = 0
     print("resultImage.shape ",resultImage.shape )
     resultImage = resultImage.reshape(img.shape[0] , img.shape[1], img.shape[2])
     print("resultImage.shape ", resultImage.shape)
@@ -112,6 +109,8 @@ if __name__ == '__main__':
     cv2.imshow('matrix', resultImage)
     cv2.waitKey(0)
     cv2.imwrite(img_to_save2, resultImage)
+
+
 
     #print ("mediancut_list.pop().pop().dtype", mediancut_list.pop().pop().dtype)
 
