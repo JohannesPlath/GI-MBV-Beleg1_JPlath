@@ -117,3 +117,6 @@ if __name__ == '__main__':
     plt.imshow(result_image)
     plt.show()
     plt.close()
+    from PIL import Image
+    im = Image.fromarray(result_image)
+    im.save("Baboon_16_colorAsPIL.png")
