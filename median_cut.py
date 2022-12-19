@@ -1,7 +1,8 @@
 import cv2
 import numpy as np
-from numpy import median, mean
+from numpy import median, mean, argmax, argmin
 import matplotlib.pyplot as plt
+
 
 img_path = 'CT.png'
 img_to_save = 'to_save.png'
@@ -58,17 +59,22 @@ def find_median_cut_in_array_with_num_of_cluster(array_in_2_d, num_cluster):
 
 def find_new_color(item, color_list):
     x = 0 ;
-    while x <= color_list.__len__ () - 1:
-        first = int (round (color_list[x].sum ()))
-        second = int (round (color_list[x + 1].sum ()))
-        diff_one = item.sum () - first
-        diff_two = second - item.sum ()
-        if (diff_one < diff_two):
-            return color_list[x]
-        if (x == color_list.__len__ () - 2):
-            return color_list[x + 1]
-        x = x + 1
-    return color_list[0]
+    # while x <= color_list.__len__ () - 1:
+    #     first = int (round (color_list[x].sum ()))
+    #     second = int (round (color_list[x + 1].sum ()))
+    #     diff_one = item.sum () - first
+    #     diff_two = second - item.sum ()
+    #     if (diff_one < diff_two):
+    #         return color_list[x]
+    #     if (x == color_list.__len__ () - 2):
+    #         return color_list[x + 1]
+    #     x = x + 1
+
+    distances = [np.linalg.norm(cluster - item) for cluster in color_list]
+
+    color_index =  argmin(np.array(distances))
+
+    return color_list[color_index]
 
 
 
@@ -95,8 +101,9 @@ def median_cut(img_path, path_to_save, color_count):
     # save image
     image = int_image2.astype(np.uint8)
     cv2.imshow ('matrix', image)
-    cv2.waitKey (0)
+    cv2.waitKey (1000)
     cv2.imwrite (path_to_save, image)
+    cv2.destroyAllWindows()
     return image
 
 if __name__ == '__main__':
@@ -113,10 +120,11 @@ if __name__ == '__main__':
 
     #median_cut('Baboon.png', img_to_save2, 2)
     # print ("mediancut_list.pop().pop().dtype", mediancut_list.pop().pop().dtype)
-    result_image = median_cut('Baboon.png', 'Baboon_2_color.png', 16)
+    result_image = median_cut('Baboon.png', 'Baboon_2_color.png', 4)
     plt.imshow(result_image)
-    plt.show()
-    plt.close()
-    from PIL import Image
-    im = Image.fromarray(result_image)
-    im.save("Baboon_16_colorAsPIL.png")
+    # plt.show()
+    # plt.close()
+    # plt.savefig("Baboon_16_colorAsPlt.png")
+    # from PIL import Image
+    # im = Image.fromarray(result_image)
+    # im.save("Baboon_16_colorAsPIL.png")

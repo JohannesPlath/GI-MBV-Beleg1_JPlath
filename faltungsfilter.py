@@ -62,7 +62,7 @@ if __name__ == '__main__':
     # cv2.imwrite ("Baboon3x3gaus.png", result_img)
 
     img_path = 'Baboon.png'
-    image = cv2.cvtColor (cv2.imread (img_path), cv2.COLOR_BGR2RGB)
+    # image = cv2.cvtColor (cv2.imread (img_path), cv2.COLOR_BGR2RGB)
 
     filter_3x3_gaus = np.array([[1,2,1],
                                 [2,4,2],
@@ -72,10 +72,16 @@ if __name__ == '__main__':
                            [2,4,2],
                            [1,2,1]])
 
-    image = cv2.cvtColor (cv2.imread (img_path), cv2.COLOR_BGR2RGB)
-    result_img = fold_filter_3x3(image, filter_3x3_gaus)
-    from PIL import Image
-    im = Image.fromarray(result_img)
-    im.save("Baboon3x3GausAsPIL.png")
+    # image = cv2.cvtColor (cv2.imread (img_path), cv2.COLOR_BGR2RGB)
+    # result_img = fold_filter_3x3(image, filter_3x3_gaus)
+    # from PIL import Image
+    # im = Image.fromarray(result_img)
+    # im.save("Baboon3x3GausAsPIL.png")
+    from PIL import Image, ImageOps
+    import numpy as np
+    import matplotlib.pyplot as plt
+    from PIL import Image, ImageOps
+
+
 
 
